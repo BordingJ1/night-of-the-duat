@@ -1,0 +1,255 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<title>Night of the Duat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: the twelve hours of night as a 2-column, 6-row tomb wall. Tap an hour, find the object, answer the guardian. Deliberately single-theme: it is always night in the Duat. */
+:root{
+  --night:#0B0F1F; --chamber:#141A31; --chamber-2:#1C2442;
+  --gold:#E3B657; --gold-dim:#9C7C3A; --ink:#EEE8D8; --muted:#A9A69C;
+  --ember:#E8754A; --nile:#5FB3A6;
+  --display:"Marcellus","Palatino Linotype",Georgia,serif;
+  --body:"Atkinson Hyperlegible",Verdana,Arial,sans-serif;
+  --mono:"IBM Plex Mono",Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{font-size:112.5%}
+body{background:var(--night);color:var(--ink);font-family:var(--body);line-height:1.5;margin:0;
+  background-image:radial-gradient(circle at 20% 0%,rgba(227,182,87,.08),transparent 40%),radial-gradient(circle at 90% 100%,rgba(95,179,166,.07),transparent 45%)}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:22px 48px}
+header h1{font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1.05;color:var(--gold);margin:0;letter-spacing:.02em;text-wrap:balance}
+header p{color:var(--muted);margin:8px 0 0;max-width:56ch}
+.progress{display:flex;align-items:center;gap:12px;margin:16px 0 18px}
+.track{flex:1;height:10px;border-radius:6px;background:var(--chamber-2);overflow:hidden;border:1px solid #2A335A}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--ember),var(--gold));transition:width .5s ease}
+.progress span{font-family:var(--mono);font-size:.9rem;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{position:relative;display:flex;flex-direction:column;text-align:left;background:var(--chamber);border:1px solid #2A335A;border-radius:10px;overflow:hidden;padding:0;color:var(--ink);font:inherit;cursor:pointer}
+.card:hover{border-color:var(--gold-dim)}
+.card:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.thumb{aspect-ratio:4/3;width:100%;max-width:100%;background:var(--chamber-2);display:grid;place-items:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--gold-dim);padding:8px;text-align:center}
+.ph .glyph{font-family:var(--display);font-size:2rem;color:var(--gold)}
+.ph small{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em}
+.meta{padding:9px 11px 11px;min-width:0}
+.hr{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.obj{display:block;font-weight:700;font-size:.98rem;line-height:1.25;margin-top:2px}
+.where{display:block;font-size:.8rem;color:var(--muted);margin-top:3px}
+.card.done .thumb::after{content:"Passed";position:absolute;top:8px;right:8px;background:var(--gold);color:var(--night);font-weight:700;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px}
+.mid{grid-column:1/-1;text-align:center;font-family:var(--display);color:var(--ember);font-size:1.05rem;padding:4px 0;border-block:1px dashed rgba(232,117,74,.5)}
+/* sheet */
+.sheet{position:fixed;inset:0;background:rgba(5,7,15,.82);display:flex;align-items:flex-end;justify-content:center;z-index:5;padding-top:env(safe-area-inset-top,0px)}
+.panel{background:var(--chamber);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:14px 14px 0 0;border:1px solid #2A335A;padding:0 0 calc(18px + env(safe-area-inset-bottom,0px))}
+.panel .thumb{aspect-ratio:16/10}
+.pbody{padding:16px 18px 4px}
+.pbody h2{font-family:var(--display);font-weight:400;font-size:1.6rem;color:var(--gold);margin:4px 0 6px;line-height:1.15;text-wrap:balance}
+.pbody p{margin:8px 0;max-width:62ch}
+.label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:14px;display:block}
+.find{background:var(--chamber-2);border-radius:8px;padding:10px 12px;margin-top:6px}
+.find b{color:var(--gold)}
+.case{font-family:var(--mono);font-size:.85rem;color:var(--nile)}
+.q{font-weight:700;font-size:1.08rem;margin:6px 0 10px}
+.opts{display:grid;gap:8px}
+.opts button{font:inherit;text-align:left;padding:12px 14px;border-radius:8px;border:1.5px solid #39446F;background:var(--chamber-2);color:var(--ink);cursor:pointer;min-height:48px}
+.opts button:hover{border-color:var(--gold-dim)}
+.opts button:focus-visible,.close:focus-visible,.reset:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.opts button.right{border-color:var(--gold);background:rgba(227,182,87,.16)}
+.opts button.wrong{border-color:var(--ember);opacity:.75}
+.verdict{min-height:1.5em;margin:10px 0 0;font-weight:700}
+.rcform{display:flex;gap:8px;align-items:stretch}
+.rcpre{font-family:var(--mono);color:var(--nile);display:grid;place-items:center;padding:0 4px;font-size:1.1rem}
+.rcform input{flex:1;min-width:0;font:inherit;font-family:var(--mono);font-size:1.2rem;padding:10px 12px;border-radius:8px;border:1.5px solid #39446F;background:var(--chamber-2);color:var(--ink)}
+.rcform input:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.rcform button{font:inherit;font-weight:700;padding:10px 16px;border-radius:8px;border:0;background:var(--gold);color:var(--night);cursor:pointer;min-height:48px}
+.verdict.ok{color:var(--gold)} .verdict.no{color:var(--ember)}
+.guardian{margin-top:12px;padding:12px;border:1px dashed var(--gold-dim);border-radius:8px}
+.guardian .name{font-family:var(--display);font-size:1.3rem;color:var(--gold)}
+.close{display:block;margin:16px auto 0;font:inherit;font-weight:700;background:none;color:var(--muted);border:1px solid #39446F;border-radius:999px;padding:9px 22px;cursor:pointer}
+.dawn{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 50% 110%,#F2B45A 0%,#C2593A 30%,#2A1F45 65%,var(--night) 100%);text-align:center}
+.dawn h2{font-family:var(--display);font-weight:400;font-size:2.4rem;color:#FFF3D6;margin:0}
+.dawn p{max-width:46ch;margin:10px auto;color:#FFF3D6}
+.dawn ol{list-style:none;padding:0;margin:12px 0;font-family:var(--display);font-size:1.05rem;color:#FFE7B0;columns:2;column-gap:20px}
+.reset{font:inherit;font-size:.85rem;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;margin-top:22px}
+footer{color:var(--muted);font-size:.8rem;margin-top:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Night of the Duat</h1>
+    <p>You have died. Congratulations. Ride the sun boat through the twelve hours of night. Walk Gallery A, the tomb, then Galleries B, C and D. Each hour, find the object your soul needs and answer its guardian. Pass all twelve and you rise with the sun.</p>
+  </header>
+  <div class="progress"><div class="track"><div class="fill" id="fill"></div></div><span id="score">0 / 12 hours</span></div>
+  <div class="grid" id="grid"></div>
+  <div style="text-align:center"><button type="button" class="reset" id="reset">Start the night over</button></div>
+  <footer>Rosicrucian Egyptian Museum · Members' Night · Hours follow the Book of Gates. Objects and labels from our galleries.</footer>
+</div>
+
+<div class="sheet" id="sheet" hidden><div class="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle" id="panel"></div></div>
+<div class="dawn" id="dawn" hidden><div>
+  <h2>Dawn</h2>
+  <p>Nun lifts the sun boat out of the dark water and the sky goddess Nut catches the sun. You are reborn with it. Speak the names of the guardians you passed:</p>
+  <ol id="names"></ol>
+  <p><b>Show this screen at the Hall of Two Truths for your reward.</b></p>
+  <button type="button" class="close" id="dawnClose" style="color:#FFF3D6;border-color:#FFF3D6">Back to the night</button>
+</div></div>
+
+<script>
+const HOURS=[
+ {n:1,gal:"A",title:"Sunset: Through the False Door",guardian:"Mehen",
+  hour:"The sun sinks into the western mountain and the night journey begins. To follow it, your spirit has to cross from the world of the living into the West. Find the door.",
+  object:"False Door of Henuti",rc:"RC 1735",where:"Gallery A, case A2 (Old Kingdom)",photo:"assets/hour-01.jpg",
+  why:"A false door was the gateway between the living and the dead. The spirit passed through it to receive offerings and to travel on.",
+  q:"What was placed in front of this door for Henuti's ka (spirit)?",opts:["Offerings","Her shoes","Her husband's sword","A sleeping cat"],a:0},
+ {n:2,gal:"A",title:"Into the Dark: Catch the Boat",guardian:"Saa-Set",
+  hour:"Total darkness. The ram-headed sun god sails on, and only souls who spoke the truth get bread and cool water along the way. You need a seat on the boat.",
+  object:"Model Funerary Boat",rc:"RC 480",where:"Gallery A, case A4-A5 (Middle Kingdom)",photo:"assets/hour-02.jpg",
+  why:"Model boats in tombs gave the dead transport in the afterlife, just as Ra travels the night by boat.",
+  q:"What did a model boat in a tomb give the dead?",opts:["Transport in the afterlife","A place to store grain","A toy for the children","A boat for fishing trips"],a:0},
+ {n:3,gal:"A",title:"The Lake of Fire",guardian:"Aqebi",
+  hour:"A lake of fire: cool water to the good, flames to the wicked. Below, the gods tie up Apep, the serpent of chaos. Wrap yourself in protection.",
+  object:"Mummy Mask and Amulets",rc:"RC 1966",where:"Gallery A, case A7",photo:"assets/hour-03.jpg",
+  why:"Amulets laid on the mummy were its armor for the journey: eyes of Horus, cobras, a winged scarab and the protecting goddesses.",
+  q:"The amulets laid on the mummy were its what?",opts:["Armor for the journey","Payment for the boatman","Toys for the afterlife","Jewelry for a wedding"],a:0},
+ {n:4,gal:"A",title:"Osiris in His Shrine",guardian:"Tchetbi",
+  hour:"Mummified gods rest in their shrines and Osiris, king of the dead, stands by the Lake of Life. Your coffin is your shrine. Make sure it is guarded.",
+  object:"Early Eighteenth Dynasty Coffin of Disure",rc:"RC 1678",where:"Gallery A, case A9",photo:"assets/hour-04.jpg",
+  why:"A coffin made you look like Osiris and called the gods to guard every part of you for eternity.",
+  q:"A coffin made the dead look like which god?",opts:["Osiris","Ra","Anubis","Thoth"],a:0},
+ {n:5,gal:"A",title:"Before the Judges",guardian:"Teka-Hra",
+  hour:"Gods measure out the fields of the blessed and the gate to judgment looms. Your heart will be weighed next. Make sure it keeps quiet.",
+  object:"Winged Heart Scarab",rc:"RC 2015",where:"Gallery A, case A12 (Third Intermediate Period)",photo:"assets/hour-05.jpg",
+  why:"Book of the Dead Spell 30B, written on heart scarabs, orders your heart not to testify against you.",
+  q:"What did the heart scarab order your heart not to do?",opts:["Testify against you","Beat too fast","Escape the body","Eat the feather"],a:0},
+ {n:6,gal:"Tomb",title:"Midnight in the Tomb: The Weighing",guardian:"Set-em-maat-f",
+  hour:"Midnight. Osiris sits at the top of nine steps with the scales. Your heart goes on one side. On the other goes something very light. Step into the tomb and face it.",
+  object:"The Tomb",rc:"Walk-through tomb",where:"The tomb, between Galleries A and B (the weighing of the heart wall)",photo:"assets/hour-06.jpg",
+  why:"Tombs were the house of eternity. On this wall, Anubis weighs the heart of the dead against the feather of Maat, goddess of truth, while Thoth writes down the result.",
+  q:"Your heart is weighed against the feather of which goddess?",opts:["Maat, goddess of truth","Nut, goddess of the sky","Isis, mistress of magic","Bastet, the cat goddess"],a:0},
+ {n:7,gal:"B",title:"Waking the Dead",guardian:"Akha-en-Maat",
+  hour:"Twelve mummies sleep on a lion-legged serpent until a fiery pool gives them back their bodies and souls. Your soul needs wings to come home.",
+  object:"Ba Birds",rc:"RC 513",where:"Gallery B, case B2 (Proper Burial)",photo:"assets/hour-07.jpg",
+  why:"The ba was the part of the soul that could fly, shown as a bird with a human head. It left the tomb by day and returned to the body at night.",
+  q:"The ba is shown as a bird with what kind of head?",opts:["A human head","A falcon head","A cat head","A snake head"],a:0},
+ {n:8,gal:"B",title:"Fire on the Enemies",guardian:"Set-Hra",
+  hour:"The drowned are lifted out of the dark waters of Nun, and a fire-breathing serpent scorches the enemies of Osiris. Get a cobra on your side.",
+  object:"Uraei from Furniture",rc:"RC 550",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-08.jpg",
+  why:"The uraeus was the cobra that spat fire at the king's enemies. Ordinary people carved it on furniture to guard their homes.",
+  q:"The uraeus started out as protection for whom?",opts:["The king","Fishermen","Children","Cats"],a:0},
+ {n:9,gal:"B",title:"Magicians and Knots",guardian:"Ab-ta",
+  hour:"Magicians tie knotted cords and gods cast nets to trap serpents. Apep is getting nervous. Tie some magic of your own.",
+  object:"Knotted Cord",rc:"RC 1172",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-09.jpg",
+  why:"Knots held magic in place. Isis's own knot, the tyet, has its own Book of the Dead spell.",
+  q:"Magical knots like this one stood for which goddess?",opts:["Isis","Hathor","Sekhmet","Nut"],a:0},
+ {n:10,gal:"C",title:"Apep in Chains",guardian:"Sethu",
+  hour:"Apep is caught! The earth god Geb and the four Sons of Horus hold his chain while a giant hand pins it down. Bring the jars they guard.",
+  object:"Stone Canopic Jars",rc:"RC 19",where:"Gallery C, case C8 (The Families of the Gods)",photo:"assets/hour-10.jpg",
+  why:"The four Sons of Horus guarded your organs in these jars, and in the Book of Gates they hold the chain on chaos.",
+  q:"Who guarded your organs in these jars?",opts:["The four Sons of Horus","The four winds","Four royal guards","The four cats of Bastet"],a:0},
+ {n:11,gal:"C",title:"The Cat Guardian",guardian:"Am-netu-f",
+  hour:"Apep is finished off with knives. Kings crown Ra for the morning while Mati, a cat-headed guardian, keeps watch. Make friends with the cat.",
+  object:"Cat Votive Offerings",rc:"RC 72",where:"Gallery C, case C10 (Personal Piety)",photo:"assets/hour-11.jpg",
+  why:"Cats were sacred to Bastet, protector of the home, and a cat offering won her favor.",
+  q:"Cats were sacred to which goddess?",opts:["Bastet","Sekhmet","Nut","Hathor"],a:0},
+ {n:12,gal:"D",title:"Dawn: Going Forth by Day",guardian:"Sebi and Reri",
+  hour:"The last gate. Nun lifts the sun boat out of the water, the sky goddess Nut catches the sun, and Ra is reborn as the scarab. So are you.",
+  object:"Fragment from the Book of the Dead",rc:"RC 476",where:"Gallery D, case D2 (In Service to Egypt)",photo:"assets/hour-12.jpg",
+  why:"Its real name is The Book of Going Forth by Day, and the whole point of the book was this moment: walking out into daylight, alive again.",
+  q:"What was the Book of the Dead actually called?",opts:["The Book of Going Forth by Day","The Book of the Long Night","The Scroll of Osiris","The Pyramid Book"],a:0}
+];
+
+const KEY='duat-night-v2';
+let solved={};
+try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){solved={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(solved))}catch(e){}};
+let unlocked={};try{unlocked=JSON.parse(localStorage.getItem(KEY+'-rc')||'{}')||{}}catch(e){unlocked={}}
+const saveU=()=>{try{localStorage.setItem(KEY+'-rc',JSON.stringify(unlocked))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const grid=document.getElementById('grid'),sheet=document.getElementById('sheet'),panel=document.getElementById('panel');
+
+function thumb(h){
+  return h.photo?`<div class="thumb"><img src="${h.photo}" alt="${esc(h.object)}"></div>`
+   :`<div class="thumb"><div class="ph"><span class="glyph">${h.n}</span><small>FIND IT</small></div></div>`;
+}
+function render(){
+  let html='';
+  HOURS.forEach(h=>{
+    html+=`<button type="button" class="card ${solved[h.n]?'done':''}" id="card-${h.n}" data-n="${h.n}">${thumb(h)}<div class="meta"><span class="hr">Hour ${h.n} · ${h.gal==="Tomb"?"Tomb":"Gallery "+h.gal}</span><span class="obj">${esc(h.object)}</span><span class="where">${esc(h.where.split('(')[0].replace(/\.$/,'').trim())}</span></div></button>`;
+  });
+  grid.innerHTML=html;
+  const c=Object.keys(solved).length;
+  document.getElementById('score').textContent=`${c} / 12 hours`;
+  document.getElementById('fill').style.width=(c/12*100)+'%';
+}
+function order(h){const r=[0,1,2,3];let s=h.n*7+3;for(let i=3;i>0;i--){s=(s*31+11)%97;const j=s%(i+1);[r[i],r[j]]=[r[j],r[i]]}return r}
+function open(n){
+  const h=HOURS.find(x=>x.n===n);
+  const done=solved[n];
+  const rcNum=(h.rc.match(/\d+/)||[])[0];
+  const gated=!!rcNum&&!done&&!unlocked[n];
+  panel.innerHTML=`${thumb(h)}<div class="pbody">
+    <span class="hr">Hour ${h.n} of 12</span>
+    <h2 id="ptitle">${esc(h.title)}</h2>
+    <p>${esc(h.hour)}</p>
+    <span class="label">Your soul needs</span>
+    <div class="find"><b>${esc(h.object)}</b><br>${esc(h.where)}</div>
+    ${gated?`<div id="gate"><span class="label">Prove you found it</span><p style="margin:4px 0 8px">Type the RC number from the object's label.</p><form class="rcform" id="rcform" autocomplete="off" novalidate><label class="rcpre" for="rcin">RC</label><input id="rcin" inputmode="numeric" maxlength="8" aria-label="RC number"><button type="submit">Unlock</button></form><p class="verdict" id="rcmsg" aria-live="polite"></p></div>`:''}
+    <div id="locked" ${gated?'hidden':''}>
+    <div class="find" style="margin-top:10px"><span class="case">${esc(h.rc)}</span><p style="margin:6px 0 0">${esc(h.why)}</p></div>
+    <span class="label">The guardian asks</span>
+    <p class="q">${esc(h.q)}</p>
+    <div class="opts">${order(h).map(i=>`<button type="button" id="opt-${h.n}-${i}" data-i="${i}">${esc(h.opts[i])}</button>`).join('')}</div>
+    <p class="verdict" id="verdict" aria-live="polite"></p>
+    </div>
+    <div class="guardian" id="guard" ${done?'':'hidden'}><span class="label" style="margin:0">Guardian of this gate</span><span class="name">${esc(h.guardian)}</span><p style="margin:4px 0 0">Say the name out loud. You will need it at dawn.</p></div>
+    <button type="button" class="close" id="closeBtn">${done?'Back to the night':'Not yet, back to the map'}</button>
+  </div>`;
+  if(done){const b=panel.querySelector(`[data-i="${h.a}"]`);b.classList.add('right');}
+  panel.querySelector('.opts').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-i]');if(!b)return;
+    const v=document.getElementById('verdict');
+    if(+b.dataset.i===h.a){
+      b.classList.add('right');v.className='verdict ok';v.textContent='The guardian steps aside.';
+      document.getElementById('guard').hidden=false;document.getElementById('closeBtn').textContent='Onward';
+      solved[h.n]=1;save();render();
+    }else{
+      b.classList.add('wrong');v.className='verdict no';v.textContent=['The Devourer licks her lips. Try again.','Wrong! The serpent hisses. Read the description again.','Nope. A Priest of Thoth can give you a hint.'][Math.floor(Math.random()*3)];
+    }
+  });
+  const f=document.getElementById('rcform');
+  if(f) f.addEventListener('submit',e=>{
+    e.preventDefault();
+    const v=(document.getElementById('rcin').value.match(/\d+/)||[''])[0].replace(/^0+/,'');
+    const m=document.getElementById('rcmsg');
+    if(v===rcNum){unlocked[n]=1;saveU();document.getElementById('gate').hidden=true;document.getElementById('locked').hidden=false;}
+    else{m.className='verdict no';m.textContent=v?'That is not the number on this object. Look closer at the label.':'Type the number first.';}
+  });
+  document.getElementById('closeBtn').onclick=close;
+  sheet.hidden=false;panel.scrollTop=0;document.getElementById('closeBtn').focus({preventScroll:true});
+}
+function close(){
+  sheet.hidden=true;
+  if(Object.keys(solved).length===12) showDawn();
+}
+function showDawn(){
+  document.getElementById('names').innerHTML=HOURS.map(h=>`<li>${esc(h.guardian)}</li>`).join('');
+  document.getElementById('dawn').hidden=false;
+}
+grid.addEventListener('click',e=>{const c=e.target.closest('.card');if(c)open(+c.dataset.n)});
+sheet.addEventListener('click',e=>{if(e.target===sheet)close()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)close()});
+document.getElementById('dawnClose').onclick=()=>{document.getElementById('dawn').hidden=true};
+let armed=false;
+document.getElementById('reset').onclick=e=>{
+  if(!armed){armed=true;e.target.textContent='Tap again to forget every hour';setTimeout(()=>{armed=false;e.target.textContent='Start the night over'},4000);return;}
+  solved={};save();unlocked={};saveU();render();armed=false;e.target.textContent='Start the night over';
+};
+render();
+</script>
+
+
+</body></html>
