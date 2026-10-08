@@ -1,6 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 
-<title>Night of the Duat</title>
+<title>Night in the Duat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
@@ -80,7 +80,7 @@ footer{color:var(--muted);font-size:.8rem;margin-top:22px}
 
 <div class="wrap">
   <header>
-    <h1>Night of the Duat</h1>
+    <h1>Night in the Duat</h1>
     <p>You have died. Congratulations. Ride the sun boat through the twelve hours of night. Walk Gallery A, the tomb, then Galleries B, C and D. Each hour, find the object your soul needs and answer its guardian. Pass all twelve and you rise with the sun.</p>
   </header>
   <div class="progress"><div class="track"><div class="fill" id="fill"></div></div><span id="score">0 / 12 hours</span></div>
@@ -130,11 +130,11 @@ const HOURS=[
   object:"The Tomb",rc:"Walk-through tomb",where:"The tomb, between Galleries A and B (the weighing of the heart wall)",photo:"assets/hour-06.jpg",
   why:"Tombs were the house of eternity. On this wall, Anubis weighs the heart of the dead against the feather of Maat, goddess of truth, while Thoth writes down the result.",
   q:"Your heart is weighed against the feather of which goddess?",opts:["Maat, goddess of truth","Nut, goddess of the sky","Isis, mistress of magic","Bastet, the cat goddess"],a:0},
- {n:7,gal:"B",title:"Waking the Dead",guardian:"Akha-en-Maat",
+ {n:7,gal:"C",title:"Waking the Dead",guardian:"Akha-en-Maat",
   hour:"Twelve mummies sleep on a lion-legged serpent until a fiery pool gives them back their bodies and souls. Your soul needs wings to come home.",
-  object:"Ba Birds",rc:"RC 513",where:"Gallery B, case B2 (Proper Burial)",photo:"assets/hour-07.jpg",
-  why:"The ba was the part of the soul that could fly, shown as a bird with a human head. It left the tomb by day and returned to the body at night.",
-  q:"The ba is shown as a bird with what kind of head?",opts:["A human head","A falcon head","A cat head","A snake head"],a:0},
+  object:"Ba Birds",rc:"RC 123, 685, 1040",where:"Gallery C, case C4 (Rebirth and Eternal Life)",photo:"assets/hour-07.jpg",
+  why:"The Egyptians saw the soul as five parts: the ba, the ka, the shadow, the name and the body. The ba was the person's personality, shown as a bird with a human head that could fly out of the tomb by day and come home at night.",
+  q:"According to the label, the ba was essentially the person's what?",opts:["Personality","Shadow","Name","Heartbeat"],a:0},
  {n:8,gal:"B",title:"Fire on the Enemies",guardian:"Set-Hra",
   hour:"The drowned are lifted out of the dark waters of Nun, and a fire-breathing serpent scorches the enemies of Osiris. Get a cobra on your side.",
   object:"Uraei from Furniture",rc:"RC 550",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-08.jpg",
@@ -189,7 +189,7 @@ function order(h){const r=[0,1,2,3];let s=h.n*7+3;for(let i=3;i>0;i--){s=(s*31+1
 function open(n){
   const h=HOURS.find(x=>x.n===n);
   const done=solved[n];
-  const rcNum=(h.rc.match(/\d+/)||[])[0];
+  const rcNums=h.rc.match(/\d+/g)||[];const rcNum=rcNums[0];
   const gated=!!rcNum&&!done&&!unlocked[n];
   panel.innerHTML=`${thumb(h)}<div class="pbody">
     <span class="hr">Hour ${h.n} of 12</span>
@@ -225,7 +225,7 @@ function open(n){
     e.preventDefault();
     const v=(document.getElementById('rcin').value.match(/\d+/)||[''])[0].replace(/^0+/,'');
     const m=document.getElementById('rcmsg');
-    if(v===rcNum){unlocked[n]=1;saveU();document.getElementById('gate').hidden=true;document.getElementById('locked').hidden=false;}
+    if(rcNums.includes(v)){unlocked[n]=1;saveU();document.getElementById('gate').hidden=true;document.getElementById('locked').hidden=false;}
     else{m.className='verdict no';m.textContent=v?'That is not the number on this object. Look closer at the label.':'Type the number first.';}
   });
   document.getElementById('closeBtn').onclick=close;
