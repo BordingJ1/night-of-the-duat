@@ -86,7 +86,7 @@ footer{color:var(--muted);font-size:.8rem;margin-top:22px}
   <div class="progress"><div class="track"><div class="fill" id="fill"></div></div><span id="score">0 / 12 hours</span></div>
   <div class="grid" id="grid"></div>
   <div style="text-align:center"><button type="button" class="reset" id="reset">Start the night over</button></div>
-  <footer>Rosicrucian Egyptian Museum · Members' Night · Hours follow the Book of Gates. Objects and labels from our galleries.</footer>
+  <footer>Rosicrucian Egyptian Museum · Members' Night · Hours follow the Book of Gates, with gate names after E. A. Wallis Budge. Objects and labels from our galleries.</footer>
 </div>
 
 <div class="sheet" id="sheet" hidden><div class="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle" id="panel"></div></div>
@@ -100,69 +100,69 @@ footer{color:var(--muted);font-size:.8rem;margin-top:22px}
 
 <script>
 const HOURS=[
- {n:1,gal:"A",title:"Sunset: Through the False Door",guardian:"Set and Tat",
-  hour:"The sun sinks into the western mountain and the night journey begins. To follow it, your spirit has to cross from the world of the living into the West. Find the door.",
+ {n:1,gal:"A",title:"Sunset: Through the False Door",guardian:"Set and Tat",role:"Keepers of the two standards",
+  hour:"The sun sinks into the west, and the western mountains part to let its boat into the Duat. The gods of the West call out a welcome. There is no gate yet: Set and Tat hold up the two standards, a jackal and a ram, that will reward or punish everyone in the dark. To follow, your spirit has to cross from the world of the living into the West. Find the door.",
   object:"False Door of Henuti",rc:"RC 1735",where:"Gallery A, case A2 (Old Kingdom)",photo:"assets/hour-01.jpg",
   why:"A false door was the gateway between the living and the dead. The spirit passed through it to receive offerings and to travel on.",
   q:"What was placed in front of this door for Henuti's ka (spirit)?",opts:["Offerings","Her shoes","Her husband's sword","A sleeping cat"],a:0},
  {n:2,gal:"A",title:"Into the Dark: Catch the Boat",guardian:"Saa-Set",
-  hour:"Total darkness. The ram-headed sun god sails on, and only souls who spoke the truth get bread and cool water along the way. You need a seat on the boat.",
+  hour:"Total darkness. Souls who lived by Maat are given cool water and food along the way. The wicked lie bound in cords under the eye of Atum. You need a seat on the boat.",
   object:"Model Funerary Boat",rc:"RC 480",where:"Gallery A, case A4-A5 (Middle Kingdom)",photo:"assets/hour-02.jpg",
   why:"Model boats in tombs gave the dead transport in the afterlife, just as Ra travels the night by boat.",
   q:"What did a model boat in a tomb give the dead?",opts:["Transport in the afterlife","A place to store grain","A toy for the children","A boat for fishing trips"],a:0},
  {n:3,gal:"A",title:"The Lake of Fire",guardian:"Aqebi",
-  hour:"A lake of fire: cool water to the good, flames to the wicked. Below, the gods tie up Apep, the serpent of chaos. Wrap yourself in protection.",
+  hour:"Mummies asleep in their shrines wake as Ra sails past, beside a lake of fire that cools the good and burns the wicked. Below, Atum holds back Apep, the serpent of chaos. Wrap yourself in protection.",
   object:"Mummy Mask and Amulets",rc:"RC 1966",where:"Gallery A, case A7",photo:"assets/hour-03.jpg",
   why:"Amulets laid on the mummy were its armor for the journey: eyes of Horus, cobras, a winged scarab and the protecting goddesses.",
   q:"The amulets laid on the mummy were its what?",opts:["Armor for the journey","Payment for the boatman","Toys for the afterlife","Jewelry for a wedding"],a:0},
  {n:4,gal:"A",title:"Osiris in His Shrine",guardian:"Tchetbi",
-  hour:"Mummified gods rest in their shrines and Osiris, king of the dead, stands by the Lake of Life. Your coffin is your shrine. Make sure it is guarded.",
+  hour:"Osiris, king of the dead, stands in his shrine with his son Horus nearby, while guardians watch over pits of fire and jackal gods guard the Lake of Life. Your coffin is your shrine. Make sure it is guarded.",
   object:"Early Eighteenth Dynasty Coffin of Disure",rc:"RC 1678",where:"Gallery A, case A9",photo:"assets/hour-04.jpg",
   why:"A coffin made you look like Osiris and called the gods to guard every part of you for eternity.",
   q:"A coffin made the dead look like which god?",opts:["Osiris","Ra","Anubis","Thoth"],a:0},
  {n:5,gal:"A",title:"Before the Judges",guardian:"Teka-Hra",
-  hour:"Gods measure out the fields of the blessed and the gate to judgment looms. Your heart will be weighed next. Make sure it keeps quiet.",
+  hour:"Gods with measuring cords mark out the fields of the blessed, and Horus watches over all the peoples of the earth. Ahead is the hall of judgment. Your heart will be weighed next. Make sure it keeps quiet.",
   object:"Winged Heart Scarab",rc:"RC 2015",where:"Gallery A, case A12 (Third Intermediate Period)",photo:"assets/hour-05.jpg",
   why:"Book of the Dead Spell 30B, written on heart scarabs, orders your heart not to testify against you.",
   q:"What did the heart scarab order your heart not to do?",opts:["Testify against you","Beat too fast","Escape the body","Eat the feather"],a:0},
  {n:6,gal:"Tomb",title:"Midnight in the Tomb: The Weighing",guardian:"Set-em-maat-f",
-  hour:"Midnight. Osiris sits at the top of nine steps with the scales. Your heart goes on one side. On the other goes something very light. Step into the tomb and face it.",
+  hour:"Midnight. Osiris sits at the top of nine steps with the scales before him. Your heart goes on one side. On the other goes something very light. Pass, and like Ra at this hour, your body and soul can begin to come back together. Step into the tomb and face it.",
   object:"The Tomb",rc:"Walk-through tomb",where:"The tomb, between Galleries A and B (the weighing of the heart wall)",photo:"assets/hour-06.jpg",
   why:"Tombs were the house of eternity. On this wall, Anubis weighs the heart of the dead against the feather of Maat, goddess of truth, while Thoth writes down the result.",
   q:"Your heart is weighed against the feather of which goddess?",opts:["Maat, goddess of truth","Nut, goddess of the sky","Isis, mistress of magic","Bastet, the cat goddess"],a:0},
- {n:7,gal:"C",title:"Waking the Dead",guardian:"Akha-en-Maat",
-  hour:"Twelve mummies sleep on a lion-legged serpent until a fiery pool gives them back their bodies and souls. Your soul needs wings to come home.",
-  object:"Ba Birds",rc:"RC 123, 685, 1040",where:"Gallery C, case C4 (Rebirth and Eternal Life)",photo:"assets/hour-07.jpg",
-  why:"The Egyptians saw the soul as five parts: the ba, the ka, the shadow, the name and the body. The ba was the person's personality, shown as a bird with a human head that could fly out of the tomb by day and come home at night.",
-  q:"According to the label, the ba was essentially the person's what?",opts:["Personality","Shadow","Name","Heartbeat"],a:0},
- {n:8,gal:"B",title:"Fire on the Enemies",guardian:"Set-Hra",
-  hour:"The drowned are lifted out of the dark waters of Nun, and a fire-breathing serpent scorches the enemies of Osiris. Get a cobra on your side.",
-  object:"Uraei from Furniture",rc:"RC 550",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-08.jpg",
-  why:"The uraeus was the cobra that spat fire at the king's enemies. Ordinary people carved it on furniture to guard their homes.",
-  q:"The uraeus started out as protection for whom?",opts:["The king","Fishermen","Children","Cats"],a:0},
- {n:9,gal:"B",title:"Magicians and Knots",guardian:"Ab-ta",
-  hour:"Magicians tie knotted cords and gods cast nets to trap serpents. Apep is getting nervous. Tie some magic of your own.",
+ {n:7,gal:"B",title:"Binding the Wicked",guardian:"Akha-en-Maat",
+  hour:"Past the judgment hall, the true dead carry feathers of Maat and harvest grain in the fields of Ra. The wicked are tied to the jackal-headed stakes of Geb. Bring a knot that binds.",
   object:"Knotted Cord",rc:"RC 1172",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-09.jpg",
   why:"Knots held magic in place. Isis's own knot, the tyet, has its own Book of the Dead spell.",
   q:"Magical knots like this one stood for which goddess?",opts:["Isis","Hathor","Sekhmet","Nut"],a:0},
- {n:10,gal:"C",title:"Apep in Chains",guardian:"Sethu",
-  hour:"Apep is caught! The earth god Geb and the four Sons of Horus hold his chain while a giant hand pins it down. Bring the jars they guard.",
-  object:"Stone Canopic Jars",rc:"RC 19",where:"Gallery C, case C8 (The Families of the Gods)",photo:"assets/hour-10.jpg",
-  why:"The four Sons of Horus guarded your organs in these jars, and in the Book of Gates they hold the chain on chaos.",
-  q:"Who guarded your organs in these jars?",opts:["The four Sons of Horus","The four winds","Four royal guards","The four cats of Bastet"],a:0},
- {n:11,gal:"C",title:"The Cat Guardian",guardian:"Am-netu-f",
-  hour:"Apep is finished off with knives. Kings crown Ra for the morning while Mati, a cat-headed guardian, keeps watch. Make friends with the cat.",
+ {n:8,gal:"B",title:"The Gate of Fire",guardian:"Set-Hra",
+  hour:"Mummies on their beds are put back together: bones gathered, limbs knit, flesh restored. Ahead, two cobras breathe fire down the length of the next gateway. Get a cobra on your side.",
+  object:"Uraei from Furniture",rc:"RC 550",where:"Gallery B, case B4 (Amulets and Magic)",photo:"assets/hour-08.jpg",
+  why:"The uraeus was the cobra that spat fire at the king's enemies. Ordinary people carved it on furniture to guard their homes.",
+  q:"The uraeus started out as protection for whom?",opts:["The king","Fishermen","Children","Cats"],a:0},
+ {n:9,gal:"C",title:"Waking in the Waters",guardian:"Ab-ta",
+  hour:"The drowned float in the dark waters of Nun. Ra tells them to lift their heads and breathe, and they rise as ba birds. Below, the serpent Khet burns the enemies of Osiris. Your soul needs wings to come home.",
+  object:"Ba Birds",rc:"RC 123, 685, 1040",where:"Gallery C, case C4 (Rebirth and Eternal Life)",photo:"assets/hour-07.jpg",
+  why:"The Egyptians saw the soul as five parts: the ba, the ka, the shadow, the name and the body. The ba was the person's personality, shown as a bird with a human head that could fly out of the tomb by day and come home at night.",
+  q:"According to the label, the ba was essentially the person's what?",opts:["Personality","Shadow","Name","Heartbeat"],a:0},
+ {n:10,gal:"C",title:"The Netting of Apep",guardian:"Sethu",
+  hour:"Apep, the serpent of chaos, attacks the sun boat. Magicians throw nets over him and bind him with knot magic while harpoons strike. This next part comes from the Book of the Dead, not the Book of Gates: in Spell 17, the great cat of Ra cuts Apep down beside the sacred tree of Heliopolis. Make friends with the cat.",
   object:"Cat Votive Offerings",rc:"RC 72",where:"Gallery C, case C10 (Personal Piety)",photo:"assets/hour-11.jpg",
   why:"Cats were sacred to Bastet, protector of the home, and a cat offering won her favor.",
   q:"Cats were sacred to which goddess?",opts:["Bastet","Sekhmet","Nut","Hathor"],a:0},
+ {n:11,gal:"C",title:"Apep in Chains",guardian:"Am-netu-f",
+  hour:"Apep is caught. Geb and the four Sons of Horus hold the chain around his neck while a giant fist rises from the ground to pin it down. Bring the jars they guard.",
+  object:"Stone Canopic Jars",rc:"RC 19",where:"Gallery C, case C8 (The Families of the Gods)",photo:"assets/hour-10.jpg",
+  why:"The four Sons of Horus guarded your organs in these jars, and in the Book of Gates they hold the chain on chaos.",
+  q:"Who guarded your organs in these jars?",opts:["The four Sons of Horus","The four winds","Four royal guards","The four cats of Bastet"],a:0},
  {n:12,gal:"D",title:"Dawn: Going Forth by Day",guardian:"Sebi and Reri",
-  hour:"The last gate. Nun lifts the sun boat out of the water, the sky goddess Nut catches the sun, and Ra is reborn as the scarab. So are you.",
+  hour:"The last gate. Gods with knives finish off Apep while the Children of Horus hold him down, and Mati, the cat-headed doorkeeper, guards the door. Nun lifts the sun boat out of the water, Isis and Nephthys stand on either side, and the sky goddess Nut catches the sun. Ra is reborn as Khepri, the scarab. So are you.",
   object:"Fragment from the Book of the Dead",rc:"RC 476",where:"Gallery D, case D2 (In Service to Egypt)",photo:"assets/hour-12.jpg",
   why:"Its real name is The Book of Going Forth by Day, and the whole point of the book was this moment: walking out into daylight, alive again.",
   q:"What was the Book of the Dead actually called?",opts:["The Book of Going Forth by Day","The Book of the Long Night","The Scroll of Osiris","The Pyramid Book"],a:0}
 ];
 
-const KEY='duat-night-v2';
+const KEY='duat-night-v3';
 let solved={};
 try{solved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){solved={}}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(solved))}catch(e){}};
@@ -205,7 +205,7 @@ function open(n){
     <div class="opts">${order(h).map(i=>`<button type="button" id="opt-${h.n}-${i}" data-i="${i}">${esc(h.opts[i])}</button>`).join('')}</div>
     <p class="verdict" id="verdict" aria-live="polite"></p>
     </div>
-    <div class="guardian" id="guard" ${done?'':'hidden'}><span class="label" style="margin:0">Guardian of this gate</span><span class="name">${esc(h.guardian)}</span><p style="margin:4px 0 0">Say the name out loud. You will need it at dawn.</p></div>
+    <div class="guardian" id="guard" ${done?'':'hidden'}><span class="label" style="margin:0">${esc(h.role||"Guardian of this gate")}</span><span class="name">${esc(h.guardian)}</span><p style="margin:4px 0 0">Say the name out loud. You will need it at dawn.</p></div>
     <button type="button" class="close" id="closeBtn">${done?'Back to the night':'Not yet, back to the map'}</button>
   </div>`;
   if(done){const b=panel.querySelector(`[data-i="${h.a}"]`);b.classList.add('right');}
